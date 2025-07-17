@@ -34,6 +34,7 @@ object RetrofitClient {
 
     val prApiInterface: PRApiInterface by lazy {
         Retrofit.Builder()
+            .baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
