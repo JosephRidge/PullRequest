@@ -46,7 +46,8 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation (libs.converter.moshi)
     implementation(libs.moshi.kotlin)
-
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -17,7 +17,7 @@ object RetrofitClient {
     * - retrofit client themselves
     * */
 
-    private const val BASE_URL = "https://24pullrequests.com/api"
+    private const val BASE_URL = "https://24pullrequests.com"
 
     val logging: HttpLoggingInterceptor = HttpLoggingInterceptor()
         .setLevel(HttpLoggingInterceptor.Level.BASIC)
@@ -40,8 +40,6 @@ object RetrofitClient {
             .build()
             .create(PRApiInterface::class.java)
     }
-
-
 
 }
 
