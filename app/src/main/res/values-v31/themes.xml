@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.PullRequest" parent="android:Theme.Material.Light.NoActionBar" />
-
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <!-- Set the splash screen background, animated icon, and animation
         duration. -->
-<!--        <item name="windowSplashScreenBackground">#FFCF7F</item>-->
+        <!--        <item name="windowSplashScreenBackground">#FFCF7F</item>-->
         <item name="android:windowBackground">#FFCF7F</item>
-        <item name="android:windowSplashScreenIconBackgroundColor">#FFCF7F</item>
+        <item name="android:windowSplashScreenBackground">#FFCF7F</item>
 
         <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
              drawable. One of these is required. -->
@@ -20,5 +18,4 @@
         screen. This is required. -->
         <item name="postSplashScreenTheme">@style/Theme.SplashScreen</item>
     </style>
-
 </resources>
