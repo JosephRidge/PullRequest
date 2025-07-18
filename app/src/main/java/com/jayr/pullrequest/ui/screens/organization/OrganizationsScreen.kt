@@ -18,11 +18,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.UriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
+import com.jayr.pullrequest.domain.models.Organization
+import com.jayr.pullrequest.ui.components.ContributionsCard
+import com.jayr.pullrequest.ui.components.TextTitle
 
 @Composable
 fun ContributionsScreen(
@@ -32,55 +36,10 @@ fun ContributionsScreen(
 
     val uriHandler = LocalUriHandler.current
     Column {
-        Text(
-            text = "${organizations.value.size} organizations",
-            color = Color.Black,
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(12.dp)
-        )
-        LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+        TextTitle("${organizations.value.size} organizations")
+         LazyVerticalGrid(columns = GridCells.Fixed(2)) {
             itemsIndexed(organizations.value) { index, organization ->
-                Card(
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White
-                    ), elevation = CardDefaults.cardElevation(
-                        defaultElevation = 2.dp
-                    ), modifier = Modifier
-                        .fillMaxSize()
-                        .padding(vertical = 4.dp, horizontal = 8.dp)
-                        .clickable(
-                            onClick = {
-                                uriHandler.openUri(organization.link)
-                            }
-                        )
-                ) {
-
-                    AsyncImage(
-                        model = organization.avatar_url,
-                        contentDescription = "laucher",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(64.dp)
-                    )
-                        Column {
-                            Text(
-                                text = "${organization.login} ",
-                                color = Color.Black,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.padding(horizontal = 8.dp)
-                            )
-                            Text(
-                                text = "${organization.users.size} contributers",
-                                color = Color.Gray,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.padding(horizontal = 8.dp)
-                            )
-                        }
-
-
-                }
+                ContributionsCard(uriHandler, organization)
             }
         }
     }
