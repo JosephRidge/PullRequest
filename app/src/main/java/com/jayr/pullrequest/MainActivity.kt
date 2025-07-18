@@ -13,7 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import com.jayr.pullrequest.ui.screens.home.HomeScreen
+import com.jayr.pullrequest.ui.screens.organization.ContributionsScreen
+import com.jayr.pullrequest.ui.screens.users.UsersScreen
 import com.jayr.pullrequest.ui.theme.PullRequestTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PullRequestTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreen(
+                    UsersScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
