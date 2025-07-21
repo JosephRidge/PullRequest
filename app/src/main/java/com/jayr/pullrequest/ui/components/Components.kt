@@ -3,6 +3,7 @@ package com.jayr.pullrequest.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,29 +31,49 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.jayr.pullrequest.domain.models.Organization
 import com.jayr.pullrequest.domain.models.Project
 import com.jayr.pullrequest.domain.models.User
+import com.jayr.pullrequest.ui.screens.home.HomeScreen
+import com.jayr.pullrequest.ui.screens.organization.OrganizationsScreen
+import com.jayr.pullrequest.ui.screens.users.UsersScreen
 import com.jayr.pullrequest.ui.theme.badgeOrange
 
 
 @Composable
+fun Navigation(
+    navController: NavHostController ,
+    innerPadding: PaddingValues
+) {
+    NavHost(
+        navController,
+        startDestination = Routes.Contributions.name,
+        Modifier.padding(innerPadding)
+    ) {
+        composable(route = Routes.Contributions.name) { HomeScreen(modifier = Modifier) }
+        composable(route = Routes.Organizations.name) { OrganizationsScreen(modifier = Modifier) }
+        composable(route = Routes.Users.name) { UsersScreen(modifier = Modifier) }
+    }
+}
+
+@Composable
 fun UserDetailsRow(
-    uriHandler: UriHandler,
-    user: User
+    uriHandler: UriHandler, user: User
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
             modifier = Modifier.padding(horizontal = 8.dp),
 
             onClick = {
                 uriHandler.openUri(user.github_profile)
-            }
-        ) {
+            }) {
             Icon(
                 imageVector = Icons.Outlined.AccountCircle,
                 tint = badgeOrange,
@@ -65,9 +86,7 @@ fun UserDetailsRow(
         Column {
             Spacer(modifier = Modifier.padding(vertical = 4.dp))
             Text(
-                text = user.nickname,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                text = user.nickname, fontSize = 18.sp, fontWeight = FontWeight.Bold
             )
             Text(
                 text = "${user.organisations.size} organizations",
@@ -83,25 +102,23 @@ fun UserDetailsRow(
         }
     }
 }
+
 @Composable
 fun ContributionsCard(
-    uriHandler: UriHandler,
-    organization: Organization
+    uriHandler: UriHandler, organization: Organization
 ) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ), elevation = CardDefaults.cardElevation(
-            defaultElevation = 2.dp
-        ), modifier = Modifier
+        containerColor = Color.White
+    ), elevation = CardDefaults.cardElevation(
+        defaultElevation = 2.dp
+    ), modifier = Modifier
             .fillMaxSize()
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .clickable(
                 onClick = {
                     uriHandler.openUri(organization.link)
-                }
-            )
-    ) {
+                })) {
 
         AsyncImage(
             model = organization.avatar_url,
@@ -131,7 +148,7 @@ fun ContributionsCard(
 }
 
 @Composable
-fun TextTitle(title:String) {
+fun TextTitle(title: String) {
     Text(
         text = title,
         color = Color.Black,
@@ -140,6 +157,7 @@ fun TextTitle(title:String) {
         modifier = Modifier.padding(12.dp)
     )
 }
+
 @Composable
 fun ProjectCard(project: Project) {
     Card(

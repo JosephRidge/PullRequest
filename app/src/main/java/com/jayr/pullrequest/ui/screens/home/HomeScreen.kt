@@ -15,7 +15,7 @@ import com.jayr.pullrequest.ui.components.TextTitle
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel = viewModel(),
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     val projects = homeViewModel.projects.collectAsState()
     val isLoading = homeViewModel.isLoading.collectAsState()
