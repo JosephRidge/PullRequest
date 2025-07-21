@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.UriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
+import com.jayr.pullrequest.R
 import com.jayr.pullrequest.domain.models.Organization
 import com.jayr.pullrequest.domain.models.Project
 import com.jayr.pullrequest.domain.models.User
@@ -70,13 +72,12 @@ fun UserDetailsRow(
     ) {
         IconButton(
             modifier = Modifier.padding(horizontal = 8.dp),
-
             onClick = {
                 uriHandler.openUri(user.github_profile)
             }) {
             Icon(
                 imageVector = Icons.Outlined.AccountCircle,
-                tint = badgeOrange,
+                tint = Color.Gray,
                 contentDescription = "Icon of person",
                 modifier = Modifier
                     .size(150.dp)
@@ -86,18 +87,41 @@ fun UserDetailsRow(
         Column {
             Spacer(modifier = Modifier.padding(vertical = 4.dp))
             Text(
-                text = user.nickname, fontSize = 18.sp, fontWeight = FontWeight.Bold
+                text = user.nickname, fontSize = 20.sp, fontWeight = FontWeight.Light
             )
-            Text(
-                text = "${user.organisations.size} organizations",
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Light
-            )
-            Text(
-                text = "${user.pull_requests?.size} pull requests",
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Light
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.organization),
+                    contentDescription = "Icon of Organization",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(16.dp)
+                )
+                Spacer(modifier = Modifier.padding(horizontal = 4.dp))
+                Text(
+                    text = "${user.organisations.size} organizations",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Light
+                )
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.projects),
+                    contentDescription = "Icon of projects",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(16.dp)
+                )
+                Spacer(modifier = Modifier.padding(horizontal = 4.dp))
+
+                Text(
+                    text = "${user.pull_requests?.size} pull requests",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Light
+                )
+            }
             Spacer(modifier = Modifier.padding(vertical = 4.dp))
         }
     }
