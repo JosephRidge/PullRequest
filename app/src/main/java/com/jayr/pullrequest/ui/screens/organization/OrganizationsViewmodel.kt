@@ -10,20 +10,27 @@ import kotlinx.coroutines.launch
 
 class OrganizationsViewmodel: ViewModel() {
 
-//    states
     private val _organizations: MutableStateFlow<List<Organization>> = MutableStateFlow(emptyList())
     val organizations: StateFlow<List<Organization>> get() = _organizations
 
-//    init
+    private val _isLoading = MutableStateFlow<Boolean>(true)
+    val isLoading: StateFlow<Boolean> get() = _isLoading
+
     init {
         getContributions()
     }
 
-//    functions
     fun getContributions(){
       viewModelScope.launch {
-          _organizations.value = prApiInterface.getOrganizations()
+        try {
+            _organizations.value = prApiInterface.getOrganizations()
+            _isLoading.value = _organizations.value.isEmpty()
+        }catch (error: Error){
+            _isLoading.value = _organizations.value.isEmpty()
+        }
       }
     }
+
+
 
 }

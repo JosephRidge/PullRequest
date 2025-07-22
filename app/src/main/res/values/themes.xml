@@ -8,7 +8,6 @@
         duration. -->
 <!--        <item name="windowSplashScreenBackground">#FFCF7F</item>-->
         <item name="android:windowBackground">#FFCF7F</item>
-        <item name="android:windowSplashScreenIconBackgroundColor">#FFCF7F</item>
 
         <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
              drawable. One of these is required. -->

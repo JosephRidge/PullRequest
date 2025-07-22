@@ -9,24 +9,24 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
-    //    state
     private val _projects = MutableStateFlow<List<Project>>(emptyList())
     val projects: StateFlow<List<Project>> get() = _projects
 
-//    loading
-    private val _isLoading = MutableStateFlow<Boolean>(false)
+    private val _isLoading = MutableStateFlow<Boolean>(true)
     val isLoading: StateFlow<Boolean> get() = _isLoading
 
-    //    init
     init {
         viewModelScope.launch{
             getProjects()
         }
     }
 
-//    functions
     suspend fun getProjects() {
-        _projects.value = prApiInterface.getProjects()
-    _isLoading.value = _projects.value.isEmpty()
+        try {
+            _projects.value = prApiInterface.getProjects()
+            _isLoading.value = _projects.value.isEmpty()
+        }catch (error: Error){
+            _isLoading.value = _projects.value.isEmpty()
+        }
     }
 }

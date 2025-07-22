@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -35,7 +33,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.jayr.pullrequest.R
 import com.jayr.pullrequest.domain.models.Organization
@@ -44,18 +41,17 @@ import com.jayr.pullrequest.domain.models.User
 import com.jayr.pullrequest.ui.screens.home.HomeScreen
 import com.jayr.pullrequest.ui.screens.organization.OrganizationsScreen
 import com.jayr.pullrequest.ui.screens.users.UsersScreen
+import com.jayr.pullrequest.ui.theme.Purple40
+import com.jayr.pullrequest.ui.theme.Purple80
 import com.jayr.pullrequest.ui.theme.badgeOrange
 
 
 @Composable
 fun Navigation(
-    navController: NavHostController ,
-    innerPadding: PaddingValues
+    navController: NavHostController, innerPadding: PaddingValues
 ) {
     NavHost(
-        navController,
-        startDestination = Routes.Contributions.name,
-        Modifier.padding(innerPadding)
+        navController, startDestination = Routes.Contributions.name, Modifier.padding(innerPadding)
     ) {
         composable(route = Routes.Contributions.name) { HomeScreen(modifier = Modifier) }
         composable(route = Routes.Organizations.name) { OrganizationsScreen(modifier = Modifier) }
@@ -71,31 +67,31 @@ fun UserDetailsRow(
         modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
-            modifier = Modifier.padding(horizontal = 8.dp),
-            onClick = {
+            modifier = Modifier.padding(horizontal = 8.dp), onClick = {
                 uriHandler.openUri(user.github_profile)
             }) {
-            Icon(
-                imageVector = Icons.Outlined.AccountCircle,
-                tint = Color.Gray,
+            AsyncImage(
+                model = R.drawable.coding_person,
                 contentDescription = "Icon of person",
                 modifier = Modifier
-                    .size(150.dp)
+                    .size(220.dp)
                     .clip(CircleShape)
             )
         }
         Column {
             Spacer(modifier = Modifier.padding(vertical = 4.dp))
             Text(
-                text = user.nickname, fontSize = 20.sp, fontWeight = FontWeight.Light
-            )
+                text = user.nickname, fontSize = 20.sp,
+                fontWeight = FontWeight.Light,
+                color = Purple40
+                )
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
                     painter = painterResource(R.drawable.organization),
                     contentDescription = "Icon of Organization",
-                    tint = Color.Gray,
+                    tint = Purple40,
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(modifier = Modifier.padding(horizontal = 4.dp))
@@ -111,7 +107,7 @@ fun UserDetailsRow(
                 Icon(
                     painter = painterResource(R.drawable.projects),
                     contentDescription = "Icon of projects",
-                    tint = Color.Gray,
+                    tint = Purple40,
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(modifier = Modifier.padding(horizontal = 4.dp))
@@ -133,51 +129,56 @@ fun ContributionsCard(
 ) {
     Card(
         colors = CardDefaults.cardColors(
-        containerColor = Color.White
-    ), elevation = CardDefaults.cardElevation(
-        defaultElevation = 2.dp
-    ), modifier = Modifier
+            containerColor = Color.White
+        ), elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp
+        ), modifier = Modifier
             .fillMaxSize()
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .clickable(
                 onClick = {
                     uriHandler.openUri(organization.link)
-                })) {
-
-        AsyncImage(
-            model = organization.avatar_url,
-            contentDescription = "laucher",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.size(64.dp)
-        )
-        Column {
-            Text(
-                text = "${organization.login} ",
-                color = Color.Black,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 8.dp)
+                })
+    ) {
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            AsyncImage(
+                model = organization.avatar_url,
+                contentDescription = "laucher",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .padding(4.dp)
             )
-            Text(
-                text = "${organization.users.size} contributers",
-                color = Color.Gray,
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            )
+            Column {
+                Text(
+                    text = "${organization.login} ",
+                    color = Color.Black,
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+                Text(
+                    text = "${organization.users.size} contributers",
+                    color = Color.Gray,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+            }
         }
-
-
     }
+
 }
 
 @Composable
 fun TextTitle(title: String) {
     Text(
         text = title,
-        color = Color.Black,
+        color = Purple40,
         fontSize = 32.sp,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Light,
         modifier = Modifier.padding(12.dp)
     )
 }

@@ -9,19 +9,25 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class UserViewModel: ViewModel(){
-//    state
     private val _users: MutableStateFlow<List<User>> = MutableStateFlow(emptyList())
     val users: StateFlow<List<User>> get() = _users
 
-//    init
+    private val _isLoading = MutableStateFlow<Boolean>(true)
+    val isLoading: StateFlow<Boolean> get() = _isLoading
+
     init {
         getUsers()
     }
 
-//    functions
     fun getUsers(){
         viewModelScope.launch {
-            _users.value = prApiInterface.getUsers()
+            try {
+                _users.value = prApiInterface.getUsers()
+                _isLoading.value = _users.value.isEmpty()
+            }catch (error:Error)
+            {
+                _isLoading.value = _users.value.isEmpty()
+            }
         }
     }
 }
